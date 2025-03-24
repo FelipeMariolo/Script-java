@@ -1,0 +1,10 @@
+import math
+
+retangulo = float(input("digite a altura:"))
+retangulo2 = float(input("digite a largura:"))
+circulo = float(input("digite um raio:"))
+retangulocalculo = retangulo * retangulo2
+circulocalculo = math.pi * circulo**2  
+
+print (f" valor da area do retangulo {retangulocalculo}")
+print (f" valor da area do circulo {circulocalculo:.2f}")
