@@ -1,0 +1,78 @@
+import java.util.Scanner; // Importação da classe Scanner para leitura de entrada
+
+// Classe base (superclasse)
+class Forma {
+    // Método que será sobrescrito nas subclasses
+    public double calcularArea() {
+        return 0; // Implementação padrão
+    }
+}
+
+// Subclasse Circulo
+class Circulo extends Forma {
+    private double raio;
+
+    // Construtor
+    public Circulo(double raio) {
+        this.raio = raio;
+    }
+
+    // Sobrescrevendo o método calcularArea()
+    @Override
+    public double calcularArea() {
+        return Math.PI * raio * raio; // Área do círculo: π * r²
+    }
+}
+
+// Subclasse Retangulo
+class Retangulo extends Forma {
+    private double largura;
+    private double altura;
+
+    // Construtor
+    public Retangulo(double largura, double altura) {
+        this.largura = largura;
+        this.altura = altura;
+    }
+
+    // Sobrescrevendo o método calcularArea()
+    @Override
+    public double calcularArea() {
+        return largura * altura; // Área do retângulo: largura * altura
+    }
+}
+
+// Classe Main para testar o código
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in); // Criando um objeto Scanner para leitura de entrada
+
+        // Solicitar dados do círculo
+        System.out.println("Digite o raio do círculo:");
+        double raioCirculo = scanner.nextDouble();
+        Forma circulo = new Circulo(raioCirculo); // Criando o objeto Circulo
+
+        // Solicitar dados do retângulo
+        System.out.println("Digite a largura do retângulo:");
+        double larguraRetangulo = scanner.nextDouble();
+        System.out.println("Digite a altura do retângulo:");
+        double alturaRetangulo = scanner.nextDouble();
+        Forma retangulo = new Retangulo(larguraRetangulo, alturaRetangulo); // Criando o objeto Retangulo
+
+        // Usando polimorfismo para calcular áreas
+        System.out.println("Área do Círculo: " + circulo.calcularArea()); // Chama o método de Circulo
+        System.out.println("Área do Retângulo: " + retangulo.calcularArea()); // Chama o método de Retangulo
+
+        // Adicionando formas em uma lista (outro exemplo de polimorfismo)
+        Forma[] formas = new Forma[2];
+        formas[0] = circulo;
+        formas[1] = retangulo;
+
+        // Iterando sobre a lista e calculando áreas
+        for (Forma forma : formas) {
+            System.out.println("Área da forma: " + forma.calcularArea());
+        }
+
+        scanner.close(); // Fechar o Scanner para liberar recursos
+    }
+}
