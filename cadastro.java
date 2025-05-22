@@ -197,7 +197,6 @@ public class cadastroGUI extends JFrame {
         
         if (result == JOptionPane.OK_OPTION) {
             try (Connection conn = DatabaseConnection.getConnection()) {
-                // Obter próximo ID
                 int nextId = 1;
                 try (Statement stmt = conn.createStatement();
                      ResultSet rs = stmt.executeQuery("SELECT MAX(id) FROM clientes")) {
@@ -206,13 +205,11 @@ public class cadastroGUI extends JFrame {
                     }
                 }
                 
-                // Inserir novo cliente
                 String sql = "INSERT INTO clientes (id, nome_cliente, cpf, cnpj) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, nextId);
                     pstmt.setString(2, txtNome.getText().trim());
                     
-                    // Formata CPF/CNPJ (remove formatação existente)
                     String cpf = txtCpf.getText().replaceAll("[^0-9]", "");
                     String cnpj = txtCnpj.getText().replaceAll("[^0-9]", "");
                     
@@ -306,14 +303,12 @@ public class cadastroGUI extends JFrame {
                 conn.setAutoCommit(false);
                 
                 try {
-                    // Primeiro exclui os serviços associados
                     try (PreparedStatement pstmt = conn.prepareStatement(
                         "DELETE FROM servicos WHERE cliente_id = ?")) {
                         pstmt.setInt(1, id);
                         pstmt.executeUpdate();
                     }
                     
-                    // Depois exclui o cliente
                     try (PreparedStatement pstmt = conn.prepareStatement(
                         "DELETE FROM clientes WHERE id = ?")) {
                         pstmt.setInt(1, id);
@@ -346,7 +341,6 @@ public class cadastroGUI extends JFrame {
         
         JPanel panel = new JPanel(new GridLayout(5, 2, 5, 5));
         
-        // Combo com clientes disponíveis
         JComboBox<String> comboClientes = new JComboBox<>();
         for (int i = 0; i < modelClientes.getRowCount(); i++) {
             int id = (int) modelClientes.getValueAt(i, 0);
@@ -373,7 +367,6 @@ public class cadastroGUI extends JFrame {
         
         if (result == JOptionPane.OK_OPTION) {
             try {
-                // Extrai o ID do cliente selecionado
                 int clienteId = Integer.parseInt(
                     comboClientes.getSelectedItem().toString().split(" - ")[0]);
                 
@@ -539,7 +532,7 @@ public class cadastroGUI extends JFrame {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                new GestaoClientesServicosCompleta().setVisible(true);
+                new Cadastro().setVisible(true);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, 
                     "Erro ao iniciar a aplicação: " + e.getMessage(), 
